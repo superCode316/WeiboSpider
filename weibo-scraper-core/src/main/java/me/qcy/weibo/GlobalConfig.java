@@ -14,6 +14,16 @@ public class GlobalConfig {
     private String SUB;
     private String SUBP;
 
+    private long onFailWait = 2000;
+
+    public long getOnFailWait() {
+        return onFailWait;
+    }
+
+    public void setOnFailWait(long onFailWait) {
+        this.onFailWait = onFailWait;
+    }
+
     public String getWm() {
         return wm;
     }
@@ -48,23 +58,23 @@ public class GlobalConfig {
     }
 
     private GlobalConfig() throws IOException {
-        URL resource = Main.class.getClassLoader().getResource("application.properties");
-        BufferedReader file = new BufferedReader(new FileReader(resource.getFile()));
-        String line;
-
-        while ((line = file.readLine()) != null) {
-            int first = line.indexOf('=');
-            String key = line.substring(0, first);
-            String value = line.substring(first + 1);
-            if ("me.qcy.weibo.cookie.wm".equals(key)) {
-                wm = value;
-            }
-            if ("me.qcy.weibo.cookie.SUB".equals(key)) {
-                SUB = value;
-            }
-            if ("me.qcy.weibo.cookie.SUBP".equals(key)) {
-                SUBP = value;
-            }
-        }
+//        URL resource = getClass().getClassLoader().getResource("application.properties");
+//        BufferedReader file = new BufferedReader(new FileReader(resource.getFile()));
+//        String line;
+//
+//        while ((line = file.readLine()) != null) {
+//            int first = line.indexOf('=');
+//            String key = line.substring(0, first);
+//            String value = line.substring(first + 1);
+//            if ("me.qcy.weibo.cookie.wm".equals(key)) {
+//                wm = value;
+//            }
+//            if ("me.qcy.weibo.cookie.SUB".equals(key)) {
+//                SUB = value;
+//            }
+//            if ("me.qcy.weibo.cookie.SUBP".equals(key)) {
+//                SUBP = value;
+//            }
+//        }
     }
 }

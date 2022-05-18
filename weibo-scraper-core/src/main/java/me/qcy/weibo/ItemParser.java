@@ -49,9 +49,14 @@ public class ItemParser {
      * @return 微博爬取结果
      * @throws IOException 网络异常
      */
-    public WeiboPost getWeiboPost() throws IOException {
+    public WeiboPost getWeiboPost() throws WeiboException {
         if (itemElement == null) {
-            getPostElementFromUrl();
+            try {
+                getPostElementFromUrl();
+            } catch (IOException e) {
+                log.error("无法获取单挑微博", e);
+                throw new WeiboException("无法获取单挑微博", e);
+            }
         }
         WeiboPost post = new WeiboPost();
         getMetadata(post);

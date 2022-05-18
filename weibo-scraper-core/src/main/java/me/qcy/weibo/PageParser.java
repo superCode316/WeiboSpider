@@ -1,12 +1,14 @@
 package me.qcy.weibo;
 
-import org.jsoup.Jsoup;
+import org.apache.log4j.Logger;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * @author imqia
@@ -18,6 +20,10 @@ public class PageParser {
 
     private String url;
 
+    private Consumer<WeiboPost> weiboConsumer;
+
+    private Logger logger = Logger.getLogger(getClass());
+
     public PageParser(String url) {
         this.url = url;
     }
@@ -26,11 +32,20 @@ public class PageParser {
         this.pageElement = pageElement;
     }
 
-    private void getPageElementFromUrl() throws IOException {
-        pageElement = JsoupUtils.getDocumentFromUrl(url);
+    public void setWeiboConsumer(Consumer<WeiboPost> weiboConsumer) {
+        this.weiboConsumer = weiboConsumer;
     }
 
-    public List<Element> getPageRecords() throws IOException {
+    private void getPageElementFromUrl() throws WeiboException {
+        try {
+            pageElement = JsoupUtils.getDocumentFromUrl(url);
+        } catch (IOException e) {
+            logger.error("获取页面失败", e);
+            throw new WeiboException("获取页面失败", e);
+        }
+    }
+
+    public List<Element> getPageRecords() throws WeiboException {
         if (pageElement == null) {
             getPageElementFromUrl();
         }
@@ -44,7 +59,7 @@ public class PageParser {
         return pageElements;
     }
 
-    public List<WeiboPost> getPagePosts() throws IOException {
+    public List<WeiboPost> getPagePosts() throws WeiboException {
         if (pageElement == null) {
             getPageElementFromUrl();
         }

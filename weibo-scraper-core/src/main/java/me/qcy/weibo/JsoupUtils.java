@@ -11,7 +11,8 @@ import java.io.IOException;
  */
 public class JsoupUtils {
     public static Document getDocumentFromUrl(String url) throws IOException {
-        return Jsoup.connect(url).cookie("_T_WM", GlobalConfig.getInstance().getWm())
+        return Jsoup.connect(url)
+                .cookie("_T_WM", GlobalConfig.getInstance().getWm())
                 .cookie("SUB", GlobalConfig.getInstance().getSUB())
                 .cookie("SUBP", GlobalConfig.getInstance().getSUBP())
                 .post();
